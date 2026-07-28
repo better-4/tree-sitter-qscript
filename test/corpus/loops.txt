@@ -1,0 +1,31 @@
+==================
+begin/repeat with no count
+==================
+
+begin
+  DoNextTrick
+repeat
+
+---
+
+(source_file
+  (loop_stmt
+    (argument_list
+      (identifier))))
+
+==================
+begin/repeat with a numeric count
+==================
+
+begin
+  DoNextTrick
+repeat 2
+
+---
+
+(source_file
+  (loop_stmt
+    (argument_list
+      (identifier))
+    count: (argument_list
+      (number))))

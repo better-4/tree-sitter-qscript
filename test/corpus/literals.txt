@@ -1,0 +1,55 @@
+==================
+Double-quoted string argument
+==================
+
+SetTrickName "Wallie"
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (string)))
+
+==================
+Single-quoted param string argument
+==================
+
+SetTrickName 'BS Wallride'
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (param_string)))
+
+==================
+Forced symbol as its own statement
+==================
+
+#"Jump"
+
+---
+
+(source_file
+  (argument_list
+    (forced_symbol
+      (string))))
+
+==================
+Line comment styles are ignored (extras)
+==================
+
+; this is a semicolon comment
+DoSomething // trailing comment
+// a full-line slash comment
+
+---
+
+(source_file
+  (comment)
+  (argument_list
+    (identifier))
+  (comment)
+  (comment))

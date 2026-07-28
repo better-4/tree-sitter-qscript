@@ -1,0 +1,37 @@
+==================
+Empty script body
+==================
+
+script destroy_mod_menu
+endscript
+
+---
+
+(source_file
+  (script_def
+    name: (identifier)))
+
+==================
+Script with statements in its body
+==================
+
+script unlock_initial_boards
+  SetGlobalFlag flag = BOARD_UNLOCKED_HAWKB01
+  SetGlobalFlag flag = BOARD_UNLOCKED_BURNQUISTB01
+endscript
+
+---
+
+(source_file
+  (script_def
+    name: (identifier)
+    (argument_list
+      (identifier)
+      (named_arg
+        key: (identifier)
+        value: (identifier)))
+    (argument_list
+      (identifier)
+      (named_arg
+        key: (identifier)
+        value: (identifier)))))

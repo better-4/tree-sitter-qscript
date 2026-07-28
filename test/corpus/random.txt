@@ -1,0 +1,40 @@
+==================
+Placeholder template slot in a repeat count
+==================
+
+begin
+  DoSomething
+repeat <array_size>
+
+---
+
+(source_file
+  (loop_stmt
+    (argument_list
+      (identifier))
+    count: (argument_list
+      (placeholder))))
+
+==================
+random(...) with two options, each a named arg using a placeholder value
+==================
+
+PlayAnim random( @Anim = <BalanceAnim> @Anim = <BalanceAnim2> ) wobble
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (random_expr
+      (random_option
+        (argument_list
+          (named_arg
+            key: (identifier)
+            value: (placeholder))))
+      (random_option
+        (argument_list
+          (named_arg
+            key: (identifier)
+            value: (placeholder)))))
+    (identifier)))

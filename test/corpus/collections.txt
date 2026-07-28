@@ -1,0 +1,73 @@
+==================
+Struct with named args (flags-only style)
+==================
+
+SetException Ex = Landed Scr = Land params = { NoBlend }
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (named_arg
+      key: (identifier)
+      value: (identifier))
+    (named_arg
+      key: (identifier)
+      value: (identifier))
+    (named_arg
+      key: (identifier)
+      value: (struct
+        (identifier)))))
+
+==================
+Array of struct containing a nested struct value
+==================
+
+WallRideTricks =
+[ { Trigger = { TapTwiceRelease Up X 500 } Scr = Trick_WallPlant } ]
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (array
+        (struct
+          (named_arg
+            key: (identifier)
+            value: (struct
+              (identifier)
+              (identifier)
+              (identifier)
+              (number)))
+          (named_arg
+            key: (identifier)
+            value: (identifier)))))))
+
+==================
+Vector2 and vector3 literals
+==================
+
+SetSkaterCamLerpReductionTimer pos = (1, 2)
+SetBSPAmbientColor color = (1, 2, 3)
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (named_arg
+      key: (identifier)
+      value: (vector
+        (number)
+        (number))))
+  (argument_list
+    (identifier)
+    (named_arg
+      key: (identifier)
+      value: (vector
+        (number)
+        (number)
+        (number)))))

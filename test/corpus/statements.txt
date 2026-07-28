@@ -1,0 +1,60 @@
+==================
+Bare call with no arguments
+==================
+
+DoSomething
+
+---
+
+(source_file
+  (argument_list
+    (identifier)))
+
+==================
+Top-level assignment
+==================
+
+GOAL_BRONZE = 0
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (number))))
+
+==================
+Call with a named argument
+==================
+
+SetGlobalFlag flag = BOARD_UNLOCKED_HAWKB01
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (named_arg
+      key: (identifier)
+      value: (identifier))))
+
+==================
+Blank lines between statements are tolerated
+==================
+
+FOO = 1
+
+BAR = 2
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (number)))
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (number))))

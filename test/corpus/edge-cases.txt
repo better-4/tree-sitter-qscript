@@ -1,0 +1,430 @@
+==================
+Escaped apostrophe inside a param string
+==================
+
+SetTrickName 'Eddie\'s Hair'
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (param_string)))
+
+==================
+Escaped double-quote inside a string
+==================
+
+SetTrickName "She said \"hi\""
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (string)))
+
+==================
+Placeholder used as both the key and value of an assignment
+==================
+
+<anchor_id> = <id>
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (placeholder)
+      value: (placeholder))))
+
+==================
+Placeholder body need not be a plain identifier
+==================
+
+PrintStruct <...>
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (placeholder)))
+
+==================
+script header with trailing default-parameter arguments
+==================
+
+script FlipTrick speed = 1.0 trickslack = 10
+  ClearTricksFrom Jumptricks
+endscript
+
+---
+
+(source_file
+  (script_def
+    name: (identifier)
+    params: (argument_list
+      (named_arg
+        key: (identifier)
+        value: (number))
+      (named_arg
+        key: (identifier)
+        value: (number)))
+    (argument_list
+      (identifier)
+      (identifier))))
+
+==================
+Scope-qualified call target
+==================
+
+skater:SetTrickName "You cheat like Kurt"
+
+---
+
+(source_file
+  (argument_list
+    (qualified_identifier
+      scope: (identifier)
+      name: (identifier))
+    (string)))
+
+==================
+Logical connectors and equality inside a paren_expr
+==================
+
+if ( ( <height> < 0 ) or ( <last_slice> = <number_of_slices> ) )
+  break
+endif
+
+---
+
+(source_file
+  (if_stmt
+    condition: (argument_list
+      (paren_expr
+        (paren_expr
+          (placeholder)
+          (op)
+          (number))
+        (op)
+        (paren_expr
+          (argument_list
+            (named_arg
+              key: (placeholder)
+              value: (placeholder))))))
+    (argument_list
+      (identifier))))
+
+==================
+Dot member-access operator inside a paren_expr
+==================
+
+slice_height = ( ( (0, 1).<slice_scale> ) * <slice_height> )
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (paren_expr
+        (paren_expr
+          (vector
+            (number)
+            (number))
+          (op)
+          (placeholder))
+        (op)
+        (placeholder)))))
+
+==================
+Array indexing expression
+==================
+
+host_options_sub_menu_add_item first_item <...> ( <array> [ <index> ] )
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (identifier)
+    (placeholder)
+    (paren_expr
+      (argument_list
+        (index_expr
+          array: (placeholder)
+          index: (placeholder))))))
+
+==================
+random(...) using a bare numeric range with no @ options
+==================
+
+stream_freq = randomrange(0, 7)
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (random_expr
+        (number)
+        (number)))))
+
+==================
+random(...) spanning multiple lines
+==================
+
+PlayAnim random( @Anim = StandIdleA
+  @Anim = StandIdleB
+  @Anim = StandIdleC
+)
+
+---
+
+(source_file
+  (argument_list
+    (identifier)
+    (random_expr
+      (random_option
+        (argument_list
+          (named_arg
+            key: (identifier)
+            value: (identifier))))
+      (random_option
+        (argument_list
+          (named_arg
+            key: (identifier)
+            value: (identifier))))
+      (random_option
+        (argument_list
+          (named_arg
+            key: (identifier)
+            value: (identifier)))))))
+
+==================
+switch/case/endswitch
+==================
+
+switch <name>
+case Caballero
+  DoSomething
+case Hawk
+  DoSomethingElse
+endswitch
+
+---
+
+(source_file
+  (switch_stmt
+    subject: (argument_list
+      (placeholder))
+    (case_clause
+      value: (argument_list
+        (identifier))
+      (argument_list
+        (identifier)))
+    (case_clause
+      value: (argument_list
+        (identifier))
+      (argument_list
+        (identifier)))))
+
+==================
+Identifier-based index_expr used as a named_arg key, and a placeholder-scoped qualified call
+==================
+
+soundtracks [ <index> ] = <soundtrackname>
+<goal_id>:SetTags win_record
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (index_expr
+        array: (identifier)
+        index: (placeholder))
+      value: (placeholder)))
+  (argument_list
+    (qualified_identifier
+      scope: (placeholder)
+      name: (identifier))
+    (identifier)))
+
+==================
+A forced_symbol used as a named_arg key
+==================
+
+params = { #"switch" = ( <stat_value> + <Change> ) }
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (struct
+        (named_arg
+          key: (forced_symbol
+            (string))
+          value: (paren_expr
+            (placeholder)
+            (op)
+            (placeholder)))))))
+
+==================
+case falls through to the next case with no newline before it
+==================
+
+switch <name>
+case editskater_male
+  random( @PlayAnim Anim = StandIdleA
+  @PlayAnim Anim = StandIdleB
+ ) case editskater_female
+  Display
+endswitch
+
+---
+
+(source_file
+  (switch_stmt
+    subject: (argument_list
+      (placeholder))
+    (case_clause
+      value: (argument_list
+        (identifier))
+      (argument_list
+        (random_expr
+          (random_option
+            (argument_list
+              (identifier)
+              (named_arg
+                key: (identifier)
+                value: (identifier))))
+          (random_option
+            (argument_list
+              (identifier)
+              (named_arg
+                key: (identifier)
+                value: (identifier)))))))
+    (case_clause
+      value: (argument_list
+        (identifier))
+      (argument_list
+        (identifier)))))
+
+==================
+A random_option may be empty, may contain a nested if/endif, and the
+enclosing statement may continue with more arguments right after the
+random_expr's closing paren
+==================
+
+stream_freq = random( @PlayAnim Anim = Idle_Bam
+  @PlayAnim Anim = Idle_BamHit BlendPeriod = 0
+  if not GotParam NoSFX
+    Wait 1.02 seconds
+  endif
+   ) stream_freq = randomrange(0, 10)
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (random_expr
+        (random_option
+          (argument_list
+            (identifier)
+            (named_arg
+              key: (identifier)
+              value: (identifier))))
+        (random_option
+          (argument_list
+            (identifier)
+            (named_arg
+              key: (identifier)
+              value: (identifier))
+            (named_arg
+              key: (identifier)
+              value: (number)))
+          (if_stmt
+            condition: (argument_list
+              (identifier)
+              (identifier)
+              (identifier))
+            (argument_list
+              (identifier)
+              (number)
+              (identifier))))))
+    (named_arg
+      key: (identifier)
+      value: (random_expr
+        (number)
+        (number)))))
+
+==================
+An empty random_option
+==================
+
+random( @ )
+
+---
+
+(source_file
+  (argument_list
+    (random_expr
+      (random_option))))
+
+==================
+Parenthesized comparison expression as an if condition
+==================
+
+if ( <times> > 0 )
+  DoSomething
+endif
+
+---
+
+(source_file
+  (if_stmt
+    condition: (argument_list
+      (paren_expr
+        (placeholder)
+        (op)
+        (number)))
+    (argument_list
+      (identifier))))
+
+==================
+Nested arithmetic expression mixing vectors, placeholders, and parens
+==================
+
+scale = ( ( (1, 0) * ( <width> * 1.25 ) / 32 ) + (0.3, 0.4) )
+
+---
+
+(source_file
+  (argument_list
+    (named_arg
+      key: (identifier)
+      value: (paren_expr
+        (paren_expr
+          (vector
+            (number)
+            (number))
+          (op)
+          (paren_expr
+            (placeholder)
+            (op)
+            (number))
+          (op)
+          (number))
+        (op)
+        (vector
+          (number)
+          (number))))))

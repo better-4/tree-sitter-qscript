@@ -1,0 +1,84 @@
+==================
+if/endif with no else
+==================
+
+if BailIsOn
+  SetState air
+endif
+
+---
+
+(source_file
+  (if_stmt
+    condition: (argument_list
+      (identifier))
+    (argument_list
+      (identifier)
+      (identifier))))
+
+==================
+if/else/endif
+==================
+
+if GotParam left
+  Move X = 36
+else
+  Move X = -36
+endif
+
+---
+
+(source_file
+  (if_stmt
+    condition: (argument_list
+      (identifier)
+      (identifier))
+    (argument_list
+      (identifier)
+      (named_arg
+        key: (identifier)
+        value: (number)))
+    (else_clause
+      (argument_list
+        (identifier)
+        (named_arg
+          key: (identifier)
+          value: (number))))))
+
+==================
+if/elseif/else/endif
+==================
+
+if GetGlobalFlag flag = WALLPLANT_INPUT_FLAG
+  SetQueueTricks WallRideTricks_Single
+elseif GetGlobalFlag flag = LIP_TRICK_FLAG
+  SetQueueTricks LipTricks
+else
+  SetQueueTricks WallRideTricks
+endif
+
+---
+
+(source_file
+  (if_stmt
+    condition: (argument_list
+      (identifier)
+      (named_arg
+        key: (identifier)
+        value: (identifier)))
+    (argument_list
+      (identifier)
+      (identifier))
+    (elseif_clause
+      condition: (argument_list
+        (identifier)
+        (named_arg
+          key: (identifier)
+          value: (identifier)))
+      (argument_list
+        (identifier)
+        (identifier)))
+    (else_clause
+      (argument_list
+        (identifier)
+        (identifier)))))
