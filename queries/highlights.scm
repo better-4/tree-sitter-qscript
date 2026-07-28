@@ -1,5 +1,5 @@
 ["script" "endscript"] @keyword
-["if" "elseif" "else" "endif" "switch" "case"] @keyword.conditional
+["if" "elseif" "else" "endif" "switch" "case" "endswitch"] @keyword.conditional
 ["begin" "repeat"] @keyword.repeat
 ["random" "randomrange" "randompermute" "randomnorepeat"] @function.builtin
 
